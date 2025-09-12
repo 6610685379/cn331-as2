@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block title %}Rooms · RoomReserve{% endblock %}
+
+{% block content %}
+<h1 class="text-2xl font-semibold mb-4">Available Rooms</h1>
+
+<div class="space-y-6">
+    {% for s, n, b in rows %}
+    <!-- Each loop = one row: S{{ forloop.counter }}, N{{ forloop.counter }}, B{{ forloop.counter }} -->
+    <div class="grid md:grid-cols-3 gap-4">
+        <!-- Small column -->
+        <div class="bg-white rounded-2xl shadow p-5 flex flex-col">
+            {% if s %}
+            <div class="flex-1">
+                <div class="text-xs font-semibold text-slate-500 mb-1">S{{ forloop.counter }}</div>
+                <h2 class="text-lg font-semibold">{{ s.name }}</h2>
+                <p class="text-sm text-slate-600 mt-1">{{ s.get_room_type_display }} • {{ s.location }}</p>
+                <p class="text-sm text-slate-500">Capacity: {{ s.capacity_min }}–{{ s.capacity_max }}</p>
+                <p class="text-sm text-slate-500">Legit ≥ {{ s.min_legit_attendees }} • Slot {{ s.slot_hours }}h</p>
+            </div>
+            <a href="{% url 'reserve_room' s.id %}"
+                class="mt-4 inline-flex items-center justify-center rounded-md bg-slate-900 text-white py-2 hover:opacity-90">
+                Reserve
+            </a>
+            {% else %}
+            <div class="text-slate-400 text-sm">No small room</div>
+            {% endif %}
+        </div>
+
+        <!-- Normal column -->
+        <div class="bg-white rounded-2xl shadow p-5 flex flex-col">
+            {% if n %}
+            <div class="flex-1">
+                <div class="text-xs font-semibold text-slate-500 mb-1">N{{ forloop.counter }}</div>
+                <h2 class="text-lg font-semibold">{{ n.name }}</h2>
+                <p class="text-sm text-slate-600 mt-1">{{ n.get_room_type_display }} • {{ n.location }}</p>
+                <p class="text-sm text-slate-500">Capacity: {{ n.capacity_min }}–{{ n.capacity_max }}</p>
+                <p class="text-sm text-slate-500">Legit ≥ {{ n.min_legit_attendees }} • Slot {{ n.slot_hours }}h</p>
+            </div>
+            <a href="{% url 'reserve_room' n.id %}"
+                class="mt-4 inline-flex items-center justify-center rounded-md bg-slate-900 text-white py-2 hover:opacity-90">
+                Reserve
+            </a>
+            {% else %}
+            <div class="text-slate-400 text-sm">No normal room</div>
+            {% endif %}
+        </div>
+
+        <!-- Big column -->
+        <div class="bg-white rounded-2xl shadow p-5 flex flex-col">
+            {% if b %}
+            <div class="flex-1">
+                <div class="text-xs font-semibold text-slate-500 mb-1">B{{ forloop.counter }}</div>
+                <h2 class="text-lg font-semibold">{{ b.name }}</h2>
+                <p class="text-sm text-slate-600 mt-1">{{ b.get_room_type_display }} • {{ b.location }}</p>
+                <p class="text-sm text-slate-500">Capacity: {{ b.capacity_min }}–{{ b.capacity_max }}</p>
+                <p class="text-sm text-slate-500">Legit ≥ {{ b.min_legit_attendees }} • Slot {{ b.slot_hours }}h</p>
+            </div>
+            <a href="{% url 'reserve_room' b.id %}"
+                class="mt-4 inline-flex items-center justify-center rounded-md bg-slate-900 text-white py-2 hover:opacity-90">
+                Reserve
+            </a>
+            {% else %}
+            <div class="text-slate-400 text-sm">No big room</div>
+            {% endif %}
+        </div>
+    </div>
+    {% empty %}
+    <p class="text-slate-600">No rooms yet. Run <code>python manage.py seed_rooms</code>.</p>
+    {% endfor %}
+</div>
+{% endblock %}

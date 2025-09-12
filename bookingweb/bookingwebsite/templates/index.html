@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Home · RoomReserve{% endblock %}
+{% block content %}
+<section class="text-center py-16">
+    <h1 class="text-4xl font-extrabold text-slate-900">Welcome to RoomReserve</h1>
+    <p class="mt-4 text-lg text-slate-600">
+        Book meeting rooms anytime, anywhere — quick, simple, and efficient.
+    </p>
+    <div class="mt-8 flex justify-center gap-4">
+        <a href="{% url 'room_list' %}" class="px-6 py-3 rounded-lg bg-slate-900 text-white hover:opacity-90">Browse
+            Rooms</a>
+        {% if not user.is_authenticated %}
+        <a href="{% url 'register' %}"
+            class="px-6 py-3 rounded-lg bg-slate-100 text-slate-900 border hover:bg-slate-200">Get Started</a>
+        {% endif %}
+    </div>
+</section>
+
+<section class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
+    <div class="p-6 bg-white rounded-xl shadow text-center">
+        <h2 class="text-xl font-semibold mb-2">Simple Booking</h2>
+        <p class="text-slate-600 text-sm">Easily pick a room, choose your time, and book in seconds.</p>
+    </div>
+    <div class="p-6 bg-white rounded-xl shadow text-center">
+        <h2 class="text-xl font-semibold mb-2">Admin Control</h2>
+        <p class="text-slate-600 text-sm">Admins approve or reject reservations and manage rooms.</p>
+    </div>
+    <div class="p-6 bg-white rounded-xl shadow text-center">
+        <h2 class="text-xl font-semibold mb-2">Stay Organized</h2>
+        <p class="text-slate-600 text-sm">Track all your reservations in one place.</p>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Rooms · RoomReserve{% endblock %}
+{% block content %}
+<h1 class="text-2xl font-semibold mb-4">Available Rooms</h1>
+{% if rooms %}
+<div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+    {% for r in rooms %}
+    <div class="bg-white rounded-2xl shadow p-5 flex flex-col">
+        <div class="flex-1">
+            <h2 class="text-lg font-semibold">{{ r.name }}</h2>
+            <p class="text-sm text-slate-600 mt-1">Capacity: {{ r.capacity }}</p>
+            <p class="text-sm text-slate-500">{{ r.location }}</p>
+        </div>
+        <a href="{% url 'reserve_room' r.id %}"
+            class="mt-4 inline-flex items-center justify-center rounded-md bg-slate-900 text-white py-2 hover:opacity-90">
+            Reserve
+        </a>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<p class="text-slate-600">No rooms yet. Ask an admin to create some in the admin panel.</p>
+{% endif %}
+{% endblock %}

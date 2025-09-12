@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% block title %}Create account · RoomReserve{% endblock %}
+
+{% block content %}
+<section class="relative">
+    <div class="absolute inset-0 -z-10 bg-gradient-to-br from-white via-slate-100 to-white"></div>
+
+    <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-10 items-center">
+        <!-- Left -->
+        <div class="order-2 md:order-1 p-4 md:p-0">
+            <h1 class="text-4xl font-extrabold tracking-tight">Create your account</h1>
+            <p class="mt-4 text-slate-600">
+                Register to start booking rooms, track pending approvals, and manage your reservations — all in one
+                place.
+            </p>
+            <div class="mt-6 grid sm:grid-cols-2 gap-4">
+                <div class="p-4 bg-white rounded-xl shadow">
+                    <p class="text-sm text-slate-700 font-medium">Student & Staff friendly</p>
+                    <p class="text-xs text-slate-500 mt-1">Use your username and a secure password.</p>
+                </div>
+                <div class="p-4 bg-white rounded-xl shadow">
+                    <p class="text-sm text-slate-700 font-medium">Admin approvals</p>
+                    <p class="text-xs text-slate-500 mt-1">Reservations are reviewed for fairness and conflicts.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right: form card -->
+        <div class="order-1 md:order-2 max-w-md w-full mx-auto bg-white/80 backdrop-blur rounded-2xl shadow p-6">
+            <h2 class="text-xl font-semibold mb-4">Sign up</h2>
+
+            <form method="post" class="space-y-4">
+                {% csrf_token %}
+                {{ form.non_field_errors }}
+
+                <div>
+                    <label class="block text-sm mb-1">{{ form.username.label }}</label>
+                    {{ form.username }}
+                    {% if form.username.help_text %}
+                    <p class="text-xs text-slate-500 mt-1">{{ form.username.help_text|safe }}</p>
+                    {% endif %}
+                    {% if form.username.errors %}
+                    <p class="text-sm text-red-600 mt-1">{{ form.username.errors|striptags }}</p>
+                    {% endif %}
+                </div>
+
+                <div>
+                    <label class="block text-sm mb-1">{{ form.password1.label }}</label>
+                    <div class="relative">
+                        {{ form.password1 }}
+                        <button type="button" class="absolute inset-y-0 right-0 px-3 text-slate-500"
+                            onclick="const p=document.getElementById('pw1'); p.type=(p.type==='password'?'text':'password')">👁</button>
+                    </div>
+                    {% if form.password1.help_text %}
+                    <div class="text-xs text-slate-500 mt-1">{{ form.password1.help_text|safe }}</div>
+                    {% endif %}
+                    {% if form.password1.errors %}
+                    <p class="text-sm text-red-600 mt-1">{{ form.password1.errors|striptags }}</p>
+                    {% endif %}
+                </div>
+
+                <div>
+                    <label class="block text-sm mb-1">{{ form.password2.label }}</label>
+                    <div class="relative">
+                        {{ form.password2 }}
+                        <button type="button" class="absolute inset-y-0 right-0 px-3 text-slate-500"
+                            onclick="const p=document.getElementById('pw2'); p.type=(p.type==='password'?'text':'password')">👁</button>
+                    </div>
+                    {% if form.password2.errors %}
+                    <p class="text-sm text-red-600 mt-1">{{ form.password2.errors|striptags }}</p>
+                    {% endif %}
+                </div>
+
+                <button class="w-full rounded-md bg-slate-900 text-white py-2.5 hover:opacity-90">Create
+                    account</button>
+            </form>
+
+            <p class="text-sm text-slate-600 mt-4">
+                Already have an account?
+                <a href="{% url 'login' %}" class="text-slate-900 underline underline-offset-4">Log in</a>
+            </p>
+        </div>
+    </div>
+</section>
+{% endblock %}

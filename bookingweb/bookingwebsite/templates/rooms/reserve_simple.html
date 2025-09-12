@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+{% block title %}Reserve {{ room.name }} · RoomReserve{% endblock %}
+{% block content %}
+<div class="max-w-3xl mx-auto">
+    <h1 class="text-2xl font-semibold mb-2">Reserve: {{ room.name }}</h1>
+    <p class="text-sm text-slate-600 mb-6">
+        Choose a day below (next 3 days). Each reservation is exactly 1 hour between 06:00 and 23:00.
+        You can hold only one future reservation at a time.
+    </p>
+
+    <!-- Day boxes -->
+    <div class="grid grid-cols-3 gap-4">
+        {% for d in days %}
+        {% with key=d|date:"Y-m-d" %}
+        <button class="rounded-xl border bg-white shadow p-4 hover:bg-slate-50 text-left"
+            onclick="openPicker('{{ key }}')">
+            <div class="text-sm text-slate-500">{{ d|date:"D" }}</div>
+            <div class="text-lg font-semibold">{{ d|date:"M j" }}</div>
+            <div class="mt-2 text-xs text-slate-500">
+                {% with info=availability.key %}
+                {% endwith %}
+                <!-- subtle hint -->
+                Click to pick a time
+            </div>
+        </button>
+        {% endwith %}
+        {% endfor %}
+    </div>
+
+    <!-- Modal -->
+    <div id="picker" class="fixed inset-0 hidden items-center justify-center bg-black/30">
+        <div class="bg-white rounded-2xl shadow p-6 w-full max-w-md">
+            <div class="flex items-center justify-between mb-3">
+                <h2 class="text-lg font-semibold">Choose a time</h2>
+                <button onclick="closePicker()" class="text-slate-500">✕</button>
+            </div>
+
+            <form method="post" class="space-y-4">
+                {% csrf_token %}
+                <input type="hidden" name="day" id="pick-day">
+
+                <div>
+                    <label class="block text-sm mb-1">Available times</label>
+                    <select name="time" id="pick-time"
+                        class="w-full rounded-md border-slate-300 focus:border-slate-400 focus:ring-0" required>
+                    </select>
+                    <p class="text-xs text-slate-500 mt-1">Open 06:00–23:00 (1-hour slots).</p>
+                </div>
+
+                <div class="flex gap-2 justify-end">
+                    <button type="button" onclick="closePicker()"
+                        class="px-4 py-2 rounded-md border border-slate-200">Cancel</button>
+                    <button class="px-4 py-2 rounded-md bg-slate-900 text-white">Reserve</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{{ availability|json_script:"availability-data" }}
+<script>
+    const availability = JSON.parse(document.getElementById("availability-data").textContent);
+
+    function openPicker(dayKey) {
+        const pick = document.getElementById('picker');
+        const dayField = document.getElementById('pick-day');
+        const timeSel = document.getElementById('pick-time');
+
+        dayField.value = dayKey;
+        const info = availability[dayKey];
+        timeSel.innerHTML = "";
+
+        (info.hours || []).forEach(h => {
+            const opt = document.createElement('option');
+            opt.value = h;
+            opt.textContent = h + " – " + nextHour(h);
+            if (info.taken && info.taken.includes && info.taken.includes(h)) {
+                opt.disabled = true;
+                opt.textContent += " (booked)";
+            }
+            timeSel.appendChild(opt);
+        });
+
+        pick.classList.remove('hidden');
+        pick.classList.add('flex');
+    }
+    function closePicker() {
+        const pick = document.getElementById('picker');
+        pick.classList.add('hidden');
+        pick.classList.remove('flex');
+    }
+    function nextHour(hhmm) {
+        const [h, m] = hhmm.split(':').map(Number);
+        const nh = (h + 1) % 24;
+        return String(nh).padStart(2, '0') + ":" + String(m).padStart(2, '0');
+    }
+</script>
+{% endblock %}

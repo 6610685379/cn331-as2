@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}About Us · RoomReserve{% endblock %}
+{% block content %}
+<section class="max-w-3xl mx-auto text-center py-12">
+    <h1 class="text-3xl font-bold">About RoomReserve</h1>
+    <p class="mt-4 text-slate-600 leading-relaxed">
+        RoomReserve is a Django-based web application built to simplify room booking for students and staff.
+        Users can browse available rooms, make reservations, and track their bookings.
+        Admins have full control over room management and approvals.
+    </p>
+</section>
+
+<section class="mt-12">
+    <h2 class="text-2xl font-semibold text-center mb-6">Our Team</h2>
+    <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
+        <!-- Example member card -->
+        <div class="bg-white rounded-xl shadow p-6 text-center">
+            <div class="w-20 h-20 mx-auto rounded-full bg-slate-200 mb-4"></div>
+            <h3 class="font-semibold">Your Name</h3>
+            <p class="text-sm text-slate-500">Student ID</p>
+        </div>
+        <!-- Duplicate as needed -->
+    </div>
+</section>
+{% endblock %}

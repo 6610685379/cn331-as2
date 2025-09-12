@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block title %}Login · RoomReserve{% endblock %}
+
+{% block content %}
+<section class="relative">
+    <div class="absolute inset-0 -z-10 bg-gradient-to-br from-slate-100 via-white to-slate-100"></div>
+
+    <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-10 items-center">
+        <!-- Left -->
+        <div class="p-4 md:p-0">
+            <h1 class="text-4xl font-extrabold tracking-tight">Welcome back 👋</h1>
+            <p class="mt-4 text-slate-600">
+                Sign in to manage your room reservations, check statuses, and book new slots in seconds.
+            </p>
+            <ul class="mt-6 space-y-2 text-slate-600 text-sm">
+                <li class="flex items-center gap-2"><span class="h-1.5 w-1.5 rounded-full bg-slate-400"></span> Fast,
+                    simple booking</li>
+                <li class="flex items-center gap-2"><span class="h-1.5 w-1.5 rounded-full bg-slate-400"></span> Track
+                    approvals & history</li>
+                <li class="flex items-center gap-2"><span class="h-1.5 w-1.5 rounded-full bg-slate-400"></span> Admin
+                    review workflow</li>
+            </ul>
+        </div>
+
+        <!-- Right: form card -->
+        <div class="max-w-md w-full mx-auto bg-white/80 backdrop-blur rounded-2xl shadow p-6">
+            <h2 class="text-xl font-semibold mb-4">Login</h2>
+
+            <form method="post" class="space-y-4">
+                {% csrf_token %}
+                {{ form.non_field_errors }}
+
+                <div>
+                    <label class="block text-sm mb-1">{{ form.username.label }}</label>
+                    {{ form.username }}
+                    {% if form.username.errors %}
+                    <p class="text-sm text-red-600 mt-1">{{ form.username.errors|striptags }}</p>
+                    {% endif %}
+                </div>
+
+                <div>
+                    <label class="block text-sm mb-1">{{ form.password.label }}</label>
+                    <div class="relative">
+                        {{ form.password }}
+                        <button type="button" class="absolute inset-y-0 right-0 px-3 text-slate-500"
+                            onclick="const p=document.getElementById('login-password'); p.type=(p.type==='password'?'text':'password')">👁</button>
+                    </div>
+                    {% if form.password.errors %}
+                    <p class="text-sm text-red-600 mt-1">{{ form.password.errors|striptags }}</p>
+                    {% endif %}
+                </div>
+
+                <button class="w-full rounded-md bg-slate-900 text-white py-2.5 hover:opacity-90">Sign in</button>
+            </form>
+
+            <p class="text-sm text-slate-600 mt-4">
+                New here?
+                <a href="{% url 'register' %}" class="text-slate-900 underline underline-offset-4">Create an account</a>
+            </p>
+        </div>
+    </div>
+</section>
+{% endblock %}

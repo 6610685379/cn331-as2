@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}My Reservations · RoomReserve{% endblock %}
+{% block content %}
+<h1 class="text-2xl font-semibold mb-4">My Reservations</h1>
+
+<div class="overflow-x-auto bg-white rounded-2xl shadow">
+    <table class="min-w-full text-sm">
+        <thead class="bg-slate-100 text-slate-700">
+            <tr>
+                <th class="text-left px-4 py-3">Room</th>
+                <th class="text-left px-4 py-3">Start</th>
+                <th class="text-left px-4 py-3">End</th>
+                <th class="text-left px-4 py-3">Status</th>
+                <th class="px-4 py-3"></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for r in reservations %}
+            <tr class="border-t border-slate-200">
+                <td class="px-4 py-3">{{ r.room.name }}</td>
+                <td class="px-4 py-3">{{ r.start_time }}</td>
+                <td class="px-4 py-3">{{ r.end_time }}</td>
+                <td class="px-4 py-3">
+                    {% if r.approved %}
+                    <span
+                        class="inline-flex items-center px-2 py-0.5 rounded bg-green-100 text-green-800">Approved</span>
+                    {% else %}
+                    <span
+                        class="inline-flex items-center px-2 py-0.5 rounded bg-yellow-100 text-yellow-800">Pending</span>
+                    {% endif %}
+                </td>
+                <td class="px-4 py-3 text-right">
+                    <a href="{% url 'cancel_reservation' r.id %}"
+                        class="inline-flex items-center px-3 py-1.5 rounded-md border border-red-200 text-red-700 hover:bg-red-50">
+                        Cancel
+                    </a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td class="px-4 py-6 text-slate-500" colspan="5">No reservations yet.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

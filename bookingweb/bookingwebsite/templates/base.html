@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}Booking Site{% endblock %}</title>
+
+    <!-- Tailwind CDN (great for demos/prototypes) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // optional: tiny Tailwind config tweak
+        tailwind.config = {
+            theme: {
+                extend: {
+                    container: { center: true, padding: "1rem" }
+                }
+            }
+        }
+    </script>
+    {% block head %}{% endblock %}
+</head>
+
+<body class="min-h-screen bg-slate-50 text-slate-900">
+    <!-- Navbar -->
+    <header class="bg-white/80 backdrop-blur border-b border-slate-200 sticky top-0 z-50">
+        <nav class="container flex items-center justify-between py-3">
+            <a href="{% url 'index' %}" class="font-semibold text-xl">RoomReserve</a>
+            <ul class="flex items-center gap-4 text-sm">
+                <li><a class="hover:text-blue-600" href="{% url 'room_list' %}">Rooms</a></li>
+                <li><a class="hover:text-blue-600" href="{% url 'my_reservations' %}">My Reservations</a></li>
+                {% if user.is_authenticated %}
+                <li class="text-slate-500">Hi, {{ user.username }}</li>
+                <li><a class="px-3 py-1 rounded-md bg-slate-900 text-white hover:opacity-90"
+                        href="{% url 'logout' %}">Logout</a></li>
+                {% else %}
+                <li><a class="hover:text-blue-600" href="{% url 'login' %}">Login</a></li>
+                <li><a class="px-3 py-1 rounded-md bg-slate-900 text-white hover:opacity-90"
+                        href="{% url 'register' %}">Register</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Flash messages -->
+    <div class="container mt-4 space-y-2">
+        {% if messages %}
+        {% for message in messages %}
+        <div class="rounded-md px-4 py-3 text-sm 
+          {% if message.tags == 'success' %} bg-green-100 text-green-900 border border-green-200
+          {% elif message.tags == 'warning' %} bg-yellow-100 text-yellow-900 border border-yellow-200
+          {% elif message.tags == 'error' %} bg-red-100 text-red-900 border border-red-200
+          {% else %} bg-blue-100 text-blue-900 border border-blue-200 {% endif %}">
+            {{ message }}
+        </div>
+        {% endfor %}
+        {% endif %}
+    </div>
+
+    <!-- Main content -->
+    <main class="container py-6">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="border-t border-slate-200 mt-8">
+        <div class="container py-6 text-xs text-slate-500">
+            © {{ now|date:"Y" }} RoomReserve — Django + Tailwind
+        </div>
+    </footer>
+</body>
+
+</html>
