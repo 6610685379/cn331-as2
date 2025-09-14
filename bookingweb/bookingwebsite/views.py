@@ -13,6 +13,7 @@ from django.contrib.auth.decorators import login_required
 from datetime import datetime, time, timedelta
 from django.core.exceptions import ValidationError
 from django.db.models import Q
+from django.db.models import Sum, Prefetch
 
 def index(request):
     return render(request, 'index.html', {})
@@ -22,7 +23,7 @@ def aboutme(request):
 
 def _hours_list():
     # 06:00..23:00 as 'HH:MM' strings
-    return [f"{h:02d}:00" for h in range(6, 24)]
+    return [f"{h:02d}:00" for h in range(6, 23)]
 
 def _aware(dt):
     tz = timezone.get_current_timezone()
@@ -90,6 +91,8 @@ def reserve_room(request, room_id):
     if request.method == "POST":
         day_str = request.POST.get("day")
         time_str = request.POST.get("time")
+        attendees = int(request.POST.get("attendees", 1))  
+
         if not (day_str and time_str):
             messages.error(request, "Please pick a day and a time.")
             return redirect(request.path)
@@ -104,11 +107,32 @@ def reserve_room(request, room_id):
         start_dt = _aware(datetime.combine(day, time(hour, minute)))
         end_dt = start_dt + timedelta(hours=1)
 
+      
         if room.reservations.filter(Q(start_time__lt=end_dt) & Q(end_time__gt=start_dt)).exists():
             messages.error(request, "That slot is taken. Pick another.")
             return redirect(request.path)
+        
+        res = Reservation(
+            user=request.user,
+            room=room,
+            start_time=start_dt,
+            end_time=end_dt,
+            attendees=attendees
+        )
+ 
+       
+        if room.room_type == Room.SMALL and not (1 <= attendees <= 3):
+            messages.error(request, "Small rooms require 1–3 attendees.")
+            return redirect(request.path)
+        elif room.room_type == Room.NORMAL and not (3 <= attendees <= 5):
+            messages.error(request, "Normal rooms require 3–5 attendees.")
+            return redirect(request.path)
+        elif room.room_type == Room.BIG and not (5 <= attendees <= 8):
+            messages.error(request, "Big rooms require 5–8 attendees.")
+            return redirect(request.path)
 
-        res = Reservation(user=request.user, room=room, start_time=start_dt, end_time=end_dt, attendees=1)
+  
+     
         try:
             res.clean()
         except ValidationError as e:
@@ -157,9 +181,15 @@ def approve_reservation(request, pk):
     res.approved = True
     res.save()
     messages.success(request, "Reservation approved.")
-    return redirect('index')
+    return redirect('room_report')
+
+def delete_reservation(request, reservation_id):
+    res = get_object_or_404(Reservation, id=reservation_id)
+    res.delete()
+    messages.success(request, "Reservation Delete.")
+    return redirect("room_report")
 
 @user_passes_test(is_admin)
 def room_reservations_report(request):
-    rooms = Room.objects.all().prefetch_related('reservation_set')
+    rooms = Room.objects.all().prefetch_related('reservations').annotate(total_attendees = Sum ("reservations__attendees"))
     return render(request, 'admin/room_report.html', {"rooms": rooms})

@@ -9,7 +9,7 @@ class Room(models.Model):
     NORMAL = "normal"
     BIG = "big"
     ROOM_TYPES = [
-        (SMALL, "Small (1–2)"),
+        (SMALL, "Small (1–3)"),
         (NORMAL, "Normal (3–5)"),
         (BIG, "Big (5–8)"),
     ]
@@ -43,11 +43,17 @@ class Reservation(models.Model):
         return self.attendees >= 1
 
     def clean(self):
-        # attendees between 1 and room.capacity_max
-        if self.attendees < 1:
-            raise ValidationError("Attendees must be at least 1.")
-        if self.attendees > self.room.capacity_max:
-            raise ValidationError(f"Attendees cannot exceed room capacity ({self.room.capacity_max}).")
+        super().clean()
+        if self.room.room_type == Room.SMALL:   
+            if not (1 <= self.attendees <= 3):
+                raise ValidationError("Small room allows 1–3 attendees only.")
+        elif self.room.room_type == Room.NORMAL:
+            if not (3 <= self.attendees <= 5):
+                raise ValidationError("Normal room requires 3–5 attendees.")
+        elif self.room.room_type == Room.BIG:
+            if not (5 <= self.attendees <= 8):
+                raise ValidationError("Big room requires 5-8 attendees.")
+       
 
         # within next 3 days, not past
         now = timezone.localtime()

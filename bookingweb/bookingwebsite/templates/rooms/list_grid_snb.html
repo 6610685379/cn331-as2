@@ -16,7 +16,7 @@
                 <h2 class="text-lg font-semibold">{{ s.name }}</h2>
                 <p class="text-sm text-slate-600 mt-1">{{ s.get_room_type_display }} • {{ s.location }}</p>
                 <p class="text-sm text-slate-500">Capacity: {{ s.capacity_min }}–{{ s.capacity_max }}</p>
-                <p class="text-sm text-slate-500">Legit ≥ {{ s.min_legit_attendees }} • Slot {{ s.slot_hours }}h</p>
+                <p class="text-sm text-slate-500">Legit ≥ {{ s.min_legit_attendees }} </p>
             </div>
             <a href="{% url 'reserve_room' s.id %}"
                 class="mt-4 inline-flex items-center justify-center rounded-md bg-slate-900 text-white py-2 hover:opacity-90">
@@ -35,7 +35,7 @@
                 <h2 class="text-lg font-semibold">{{ n.name }}</h2>
                 <p class="text-sm text-slate-600 mt-1">{{ n.get_room_type_display }} • {{ n.location }}</p>
                 <p class="text-sm text-slate-500">Capacity: {{ n.capacity_min }}–{{ n.capacity_max }}</p>
-                <p class="text-sm text-slate-500">Legit ≥ {{ n.min_legit_attendees }} • Slot {{ n.slot_hours }}h</p>
+                <p class="text-sm text-slate-500">Legit ≥ {{ n.min_legit_attendees }}</p>
             </div>
             <a href="{% url 'reserve_room' n.id %}"
                 class="mt-4 inline-flex items-center justify-center rounded-md bg-slate-900 text-white py-2 hover:opacity-90">
@@ -54,7 +54,7 @@
                 <h2 class="text-lg font-semibold">{{ b.name }}</h2>
                 <p class="text-sm text-slate-600 mt-1">{{ b.get_room_type_display }} • {{ b.location }}</p>
                 <p class="text-sm text-slate-500">Capacity: {{ b.capacity_min }}–{{ b.capacity_max }}</p>
-                <p class="text-sm text-slate-500">Legit ≥ {{ b.min_legit_attendees }} • Slot {{ b.slot_hours }}h</p>
+                <p class="text-sm text-slate-500">Legit ≥ {{ b.min_legit_attendees }}</p>
             </div>
             <a href="{% url 'reserve_room' b.id %}"
                 class="mt-4 inline-flex items-center justify-center rounded-md bg-slate-900 text-white py-2 hover:opacity-90">

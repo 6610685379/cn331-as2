@@ -23,6 +23,7 @@ urlpatterns = [
     path('reservations/<int:pk>/cancel/', views.cancel_reservation, name='cancel_reservation'),
 
     # admin-side approval (simple)
+    path("reservation/<int:reservation_id>/delete/", views.delete_reservation, name="delete_reservation"),
     path('reservations/<int:pk>/approve/', views.approve_reservation, name='approve_reservation'),
-    path('admin/room-report/', views.room_reservations_report, name='room_report'),
+    path('admins/room-report/', views.room_reservations_report, name='room_report'),
 ]

@@ -13,6 +13,11 @@
         <a href="{% url 'register' %}"
             class="px-6 py-3 rounded-lg bg-slate-100 text-slate-900 border hover:bg-slate-200">Get Started</a>
         {% endif %}
+        {% if user.is_staff %}   {# ✅ แสดงปุ่มเฉพาะ admin #}
+        <a href="{% url 'room_report' %}" 
+            class="px-6 py-3 rounded-lg bg-indigo-600 text-white hover:bg-indigo-500">Admin Room Report</a>
+    {% endif %}
+     
     </div>
 </section>
 
@@ -30,4 +35,12 @@
         <p class="text-slate-600 text-sm">Track all your reservations in one place.</p>
     </div>
 </section>
+<footer class="mt-16 py-6 text-center text-sm text-slate-500">
+    <p>
+        &copy; 2025 RoomReserve · 
+        <a href="{% url 'aboutme' %}" class="underline hover:text-slate-700">
+            About We
+        </a>
+    </p>
+</footer>
 {% endblock %}
