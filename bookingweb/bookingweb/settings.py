@@ -1,4 +1,4 @@
-import dj_database_url
+
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -66,15 +66,19 @@ WSGI_APPLICATION = 'bookingweb.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-      'default': dj_database_url.parse(
-        "postgresql://cn331_as3_z258_user:uQyrNSBUcyiooXsbVgMd2g5PNXBvk8cH@dpg-d3769hggjchc73c0dc5g-a/cn331_as3_z258",
-        conn_max_age=600,
-        ssl_require=True
-      )
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'cn331_as3_z258',
+        'USER': 'cn331_as3_z258_user',
+        'PASSWORD': 'uQyrNSBUcyiooXsbVgMd2g5PNXBvk8cH',
+        'HOST': 'dpg-d3769hggjchc73c0dc5g-a',
+        'PORT': '5432',
+        'OPTIONS': {
+            'sslmode': 'require',  # important on Render Postgres
+        },
+        'CONN_MAX_AGE': 600,
     }
 }
+
 
 
 # Password validation
