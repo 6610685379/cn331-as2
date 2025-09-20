@@ -68,6 +68,11 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
+      'default': dj_database_url.parse(
+        "postgresql://cn331_as3_z258_user:uQyrNSBUcyiooXsbVgMd2g5PNXBvk8cH@dpg-d3769hggjchc73c0dc5g-a/cn331_as3_z258",
+        conn_max_age=600,
+        ssl_require=True
+      )
     }
 }
 
