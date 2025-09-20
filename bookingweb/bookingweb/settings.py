@@ -17,6 +17,18 @@ DEBUG = True
 ALLOWED_HOSTS = ['cn331-as2-1.onrender.com',
                 'cn331-as2-jrsz.onrender.com']
 
+CSRF_TRUSTED_ORIGINS = [
+    'https://cn331-as2-1.onrender.com',
+    'https://cn331-as2-jrsz.onrender.com',
+]
+
+# Render uses a reverse proxy → tell Django requests are secure
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+
+# Optional but recommended
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+
 
 # Application definition
 
