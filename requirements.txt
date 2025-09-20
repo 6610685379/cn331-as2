@@ -4,4 +4,5 @@ django-widget-tweaks==1.5.0
 sqlparse==0.5.3
 tzdata==2025.2
 gunicorn
-psycopg2-binary
+
+
