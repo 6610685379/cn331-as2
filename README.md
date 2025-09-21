@@ -21,4 +21,5 @@
 ## 🎥 Video แนะนำการใช้งาน
 ▶️ [YouTube](https://youtu.be/pAHi1TQuLDg)
 
+▶️ [YouTube](https://youtu.be/XXZdnL6HIQY)
 ---
