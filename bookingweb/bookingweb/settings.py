@@ -84,7 +84,7 @@ DATABASES = {
         'HOST': 'dpg-d3769hggjchc73c0dc5g-a',
         'PORT': '5432',
         'OPTIONS': {
-            'sslmode': 'require',  # important on Render Postgres
+            'sslmode': 'require',  
         },
         'CONN_MAX_AGE': 600,
     }
