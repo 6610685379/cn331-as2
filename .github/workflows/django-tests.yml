@@ -46,7 +46,7 @@ jobs:
 
       - name: Run migrations
         run: |
-          python manage.py migrate
+          python bookingweb/manage.py migrate
 
       - name: Run unit tests with coverage
         run: |
