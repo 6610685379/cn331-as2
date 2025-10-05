@@ -1,4 +1,4 @@
-# 🏫 CN331 - Assignment 2
+# 🏫 CN331 - Assignment 4
 
 ## 👥 Team Members
 - 👨‍🎓 **6610685361** — Sethapat Yanapatsorn  
@@ -16,7 +16,13 @@
 
 ---
 
+## web run on render 
+- ▶ [bookingweb](https://cn331-as2-jrsz.onrender.com)
+
+---
+
 ## 🎥 Video แนะนำการใช้งาน
-▶️ [YouTube](https://youtu.be/pAHi1TQuLDg)
+- ▶️ [YouTube](https://youtu.be/pAHi1TQuLDg)
+- ▶️ [YouTube as3](https://youtu.be/XXZdnL6HIQY)
 
 ---
