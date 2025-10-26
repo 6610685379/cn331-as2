@@ -18,4 +18,4 @@ class BookingwebsiteConfig(AppConfig):
                  User.objects.create_superuser(u, e, p)
 
          # run AFTER migrations so auth_user exists
-    #     post_migrate.connect(ensure_superuser, sender=self)
+         post_migrate.connect(ensure_superuser, sender=self)
