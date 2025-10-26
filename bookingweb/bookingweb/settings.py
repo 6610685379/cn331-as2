@@ -76,13 +76,18 @@ WSGI_APPLICATION = 'bookingweb.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-DATABASE_URL = os.environ.get("DATABASE_URL")
-
-if not DATABASE_URL:
-    raise RuntimeError("DATABASE_URL is not set")
-
-DATABASES = {
-    "default": dj_database_url.parse(DATABASE_URL, conn_max_age=600, ssl_require=True)
+DATABASES = { 
+  'default': { 
+    'ENGINE': 'django.db.backends.postgresql',
+    'NAME': 'cn331_as3_z258',
+    'USER': 'cn331_as3_z258_user',
+    'PASSWORD': 'uQyrNSBUcyiooXsbVgMd2g5PNXBvk8cH',
+    'HOST': 'dpg-d3769hggjchc73c0dc5g-a',
+    'PORT': '5432',
+    'OPTIONS': {
+      'sslmode': 'require', },
+    'CONN_MAX_AGE': 600,
+  }
 }
 
 
